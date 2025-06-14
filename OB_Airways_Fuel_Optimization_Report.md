@@ -22,6 +22,7 @@ Two datasets are used:
 - **flight_plan:** contains fuel estimates and planned flight details.
 
 ```python
+import pandas as pd
 actual_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=0)
 plan_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=1)
 merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
