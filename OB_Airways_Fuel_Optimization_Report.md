@@ -117,9 +117,11 @@ for name, model in models.items():
 ### First results of 3 base models
 First results of 3 base models  
 📊 Model Performance:  
-| Linear Regression | MAA: 1022.19 | RMSE: 1505.89 | R2: 0.9784 |  
-| Random Forest | MAA: 540.76 | RMSE: 944.51 | R2: 0.9915 |
-| XGBoost → MAA | 459.80 | RMSE: 875.69 | R2: 0.9927 |
+| Model               | MAE         | RMSE         | R2           |
+|---------------------|-------------|--------------|--------------|
+| Linear Regression   | 1022.19     | 1505.89      | 0.9784       |
+| Random Forest       | 540.76      | 944.51       | 0.9915       |
+| XGBoost             | 459.80      | 875.69       | 0.9927       |
 
 ```python
 print("📊 Model Performance:")
