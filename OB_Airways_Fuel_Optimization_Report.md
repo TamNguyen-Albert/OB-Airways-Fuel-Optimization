@@ -227,7 +227,7 @@ print(f"📊 MAE: {mae:.2f} | RMSE: {rmse:.2f} | R²: {r2:.4f}")
 ## Section 5: Conclusion
 
 ### Reflection
-In this project, we tackled the critical issue of fuel consumption optimization for OB Airways by analyzing flight operation data and developing a predictive model for planned fuel usage. Through a series of machine learning experiments, we evaluated multiple models including Linear Regression, Random Forest, XGBoost, and a Stacking Regressor.
+In this project, I tackled the critical issue of fuel consumption optimization for OB Airways by analyzing flight operation data and developing a predictive model for planned fuel usage. Through a series of machine learning experiments, I evaluated multiple models including Linear Regression, Random Forest, XGBoost, and a Stacking Regressor.
 
 Among these, the Stacking Model combining XGBoost and Linear Regression achieved the best performance, with:
 
@@ -242,7 +242,7 @@ This result highlights that combining a powerful tree-based model with a linear 
 One particularly interesting insight was how the ensemble stacking approach, even with only two base models, significantly outperformed strong individual models. This shows the potential of stacking even in medium-sized datasets (~10,000 rows), especially when models are sufficiently diverse in learning mechanisms.
 
 ### Improvement Suggestions
-To further enhance the solution, we recommend the following:
+To further enhance the solution, I recommend the following:
 
 Feature Engineering: Incorporating additional variables such as weather conditions, aircraft type categories, and airport elevation may improve model accuracy further.
 
