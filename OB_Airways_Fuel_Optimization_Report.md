@@ -135,20 +135,33 @@ for name, mae, rmse, r2 in results:
 from xgboost import XGBRegressor
 from sklearn.model_selection import GridSearchCV
 
+# Initialize model
 xgb = XGBRegressor(random_state=42)
 
+# Define parameter grid
 param_grid = {
     'n_estimators': [100, 200],
     'max_depth': [3, 5, 7],
     'learning_rate': [0.05, 0.1, 0.2]
 }
 
-grid_search = GridSearchCV(xgb, param_grid, cv=5, scoring='neg_mean_absolute_error')
+# 5-fold GridSearchCV for MAE
+grid_search = GridSearchCV(
+    estimator=xgb,
+    param_grid=param_grid,
+    cv=5,
+    scoring='neg_mean_absolute_error',
+    n_jobs=-1
+)
+
+# Fit model to training data
 grid_search.fit(X_train, y_train)
 
+# Best model and parameters
 best_xgb = grid_search.best_estimator_
 print("Best XGBoost params:", grid_search.best_params_)
 ```
+
 ### Stacking model XGBoost + LR
 Then, a **stacking model** was built:
 ```python
@@ -168,6 +181,7 @@ stack_model = StackingRegressor(
 stack_model.fit(X_train, y_train)
 predictions = stack_model.predict(X_test)
 ```
+
 #### Evaluate results Stacking model XGBoost + LR
 ```python
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
