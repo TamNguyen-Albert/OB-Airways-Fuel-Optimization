@@ -260,3 +260,86 @@ Robust Validation: In the future, applying time-series aware cross-validation (e
 This case study demonstrates a data-driven approach to improving operational efficiency in the airline industry. With further data enrichment and ongoing refinement, OB Airways can significantly enhance its fuel management strategy, reduce costs, and contribute to sustainable aviation.
 
 ---
+
+## 🔍 Model Explainability
+
+To enhance interpretability of the predictive model and provide actionable insights for flight planning teams, we integrated **SHAP (SHapley Additive exPlanations)** to explain the output of the `XGBoostRegressor` – the most performant single model in our analysis.
+
+### ✅ Method
+We applied SHAP on the trained `XGBoost` model to calculate how each feature contributed to the model’s prediction of fuel consumption (`planned_flight_fuel_kilograms`). The SHAP summary plot below provides a global view of feature importance and the direction of influence.
+
+### 📊 SHAP Summary Plot
+
+![SHAP Summary Plot](e83b23f4-4a71-4f6d-8d60-117e508ba57c.png)
+
+### 🔍 Key Insights from SHAP
+
+| Feature                              | Impact on Prediction | Interpretation |
+|--------------------------------------|-----------------------|----------------|
+| `air_distance_miles`                 | High                  | The longer the distance, the more fuel is expected to be consumed. Red dots on the far right indicate that high values of air distance significantly increase predictions. |
+| `estimated_takeoff_weight_kilograms`| High                  | Heavier takeoff weight increases fuel needs. SHAP shows this clearly with high-weight (red) values leading to higher SHAP values. |
+| `planned_flight_hours`              | Medium                | Longer planned flight durations moderately increase predicted fuel consumption. |
+| `departure_encoded` / `arrival_encoded` | Low–Medium         | Certain departure or arrival airports influence fuel usage, potentially due to altitude, routing constraints, or operational environments. |
+
+### 🎯 Business Impact
+
+These explainability results empower OB Airways to:
+- Prioritize **route optimization** for flights with long distances or heavy payloads.
+- Re-evaluate **aircraft allocation** strategies based on planned flight profiles.
+- Recognize specific **airport pairs** that may consistently drive higher fuel use, enabling deeper operational review.
+
+### 🧠 Why SHAP?
+
+SHAP offers consistent, additive explanations and is model-agnostic, making it particularly effective for tree-based models like XGBoost. Unlike traditional feature importance, it allows both **global understanding** and **individual prediction explanations** – ideal for decision support in aviation planning.
+
+-----------------
+# 📊 Fuel Consumption Insights
+
+This section summarizes key findings from visual analyses related to fuel usage and efficiency patterns across OB Airways' actual flight data.
+
+---
+
+## 1. Fuel Consumption vs. Flight Distance
+
+- There is a clear positive correlation between **flight distance** and **fuel consumption**, confirming the intuitive relationship that longer flights require more fuel.
+- Several short-distance flights appear to consume unusually high fuel amounts, suggesting **possible inefficiencies**, such as long taxiing times, reroutes, or over-fueling.
+- The spread becomes wider at longer distances, indicating **variability in efficiency** that could depend on aircraft type or flight conditions.
+
+---
+
+## 2. Uplifted Fuel vs. Estimated Takeoff Weight
+
+- Fuel uplift generally **increases with estimated takeoff weight**, which aligns with operational expectations.
+- A number of outliers exist where heavy flights received relatively low fuel uplift or vice versa — these anomalies may point to **planning inaccuracies**, equipment constraints, or specific route considerations.
+- A tighter alignment could reduce safety margins and signal **potential optimization opportunities**.
+
+---
+
+## 3. Actual vs. Planned Fuel (Boxplot)
+
+- The boxplot reveals that **planned fuel quantities tend to exceed actual consumption**, with a large portion of flights consuming **less fuel than planned**.
+- This over-planning could lead to **excess operational costs** and unnecessary weight during takeoff.
+- Some flights consumed **more than planned**, indicating **risk areas** that should be reviewed for route changes, unexpected delays, or misestimates in planning.
+
+---
+
+## 4. Fuel Efficiency per Flight Hour
+
+- The majority of flights show a **consistent fuel consumption rate per hour**, with the distribution peaking in a narrow band.
+- There are significant outliers with high hourly consumption, likely tied to:
+  - Short flights with long idle/taxi times,
+  - Aircraft type differences,
+  - Operational inefficiencies.
+- Suggests a potential for creating a **fuel efficiency benchmark** to evaluate future flights or aircraft.
+
+---
+
+## 5. Fuel Consumption Over Time
+
+- Daily total fuel usage shows **cyclical trends** and clear variations across months.
+- A sharp drop in mid-July may reflect **seasonal scheduling changes**, reduced operations, or fleet maintenance.
+- The 7-day rolling average smooths short-term fluctuations and indicates an overall **stable trend** with occasional surges likely tied to peak demand or events.
+- Monitoring such trends can help **forecast fuel demand** and **optimize procurement** and logistics.
+
+---
+
