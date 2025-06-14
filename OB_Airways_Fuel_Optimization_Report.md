@@ -227,11 +227,34 @@ print(f"📊 MAE: {mae:.2f} | RMSE: {rmse:.2f} | R²: {r2:.4f}")
 ## Section 5: Conclusion
 
 ### Reflection
-This project demonstrated how combining domain expertise and ensemble modeling techniques can improve planned fuel estimation. The stacking model significantly outperformed single models, suggesting strong potential for operational integration.
+In this project, we tackled the critical issue of fuel consumption optimization for OB Airways by analyzing flight operation data and developing a predictive model for planned fuel usage. Through a series of machine learning experiments, we evaluated multiple models including Linear Regression, Random Forest, XGBoost, and a Stacking Regressor.
+
+Among these, the Stacking Model combining XGBoost and Linear Regression achieved the best performance, with:
+
+MAE: 393.88 kg
+
+RMSE: 772.12 kg
+
+R²: 0.9943
+
+This result highlights that combining a powerful tree-based model with a linear meta-model can leverage the best of both worlds—capturing complex nonlinear patterns while retaining generalization and bias correction.
+
+One particularly interesting insight was how the ensemble stacking approach, even with only two base models, significantly outperformed strong individual models. This shows the potential of stacking even in medium-sized datasets (~10,000 rows), especially when models are sufficiently diverse in learning mechanisms.
 
 ### Improvement Suggestions
-- Integrate weather, route complexity, and aircraft load as additional features.
-- Use explainable ML tools (e.g., SHAP) for interpretability.
-- Deploy the model as an API to assist dispatchers in real-time.
+To further enhance the solution, we recommend the following:
+
+Feature Engineering: Incorporating additional variables such as weather conditions, aircraft type categories, and airport elevation may improve model accuracy further.
+
+Hyperparameter Tuning: Perform grid or Bayesian optimization across all base and meta-models to fine-tune their performance.
+
+Model Explainability: Integrate SHAP or LIME to interpret which features drive fuel predictions, enabling more actionable insights for flight planners.
+
+Deployment Readiness: The model can be deployed as a fuel estimation API or integrated into flight planning software to suggest more efficient fuel plans in real-time.
+
+Robust Validation: In the future, applying time-series aware cross-validation (e.g., rolling forecast split) may improve generalization on sequential flight data.
+
+🔚 Final Words:
+This case study demonstrates a data-driven approach to improving operational efficiency in the airline industry. With further data enrichment and ongoing refinement, OB Airways can significantly enhance its fuel management strategy, reduce costs, and contribute to sustainable aviation.
 
 ---
