@@ -34,7 +34,6 @@ The following insights were drawn:
 - Fuel consumption is correlated with flight hours and estimated takeoff weight.
 - Some flights had fuel estimates far below actual usage, indicating inefficiencies.
 ![image](https://github.com/user-attachments/assets/26c7e83e-1f7e-4032-aa03-f9aee8b99718)
-![image](https://github.com/user-attachments/assets/964bfcc8-26b5-41bd-a934-cadc8d9183ff)
 
 ```python
 import matplotlib.pyplot as plt
