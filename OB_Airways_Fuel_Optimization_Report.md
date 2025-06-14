@@ -112,7 +112,7 @@ for name, model in models.items():
     results.append((name, mae, rmse, r2))
 ```
 
-# 1st results of 3 base models
+### First results of 3 base models
 📊 Model Performance:
 Linear Regression    → MAE: 1022.19 | RMSE: 1505.89 | R2: 0.9784
 Random Forest        → MAE: 540.76 | RMSE: 944.51 | R2: 0.9915
@@ -124,7 +124,7 @@ for name, mae, rmse, r2 in results:
     print(f"{name:<20} → MAE: {mae:.2f} | RMSE: {rmse:.2f} | R2: {r2:.4f}")
 ```
 
-# Refinement XGBoost
+### Refinement XGBoost
 - Used 5-fold cross-validation.
 - Performed hyperparameter tuning on XGBoost.
 
@@ -146,7 +146,7 @@ grid_search.fit(X_train, y_train)
 best_xgb = grid_search.best_estimator_
 print("Best XGBoost params:", grid_search.best_params_)
 ```
-# Stacking model XGBoost + LR
+### Stacking model XGBoost + LR
 Then, a **stacking model** was built:
 ```python
 from sklearn.linear_model import LinearRegression
@@ -165,7 +165,7 @@ stack_model = StackingRegressor(
 stack_model.fit(X_train, y_train)
 predictions = stack_model.predict(X_test)
 ```
-# Evaluate results Stacking model XGBoost + LR
+#### Evaluate results Stacking model XGBoost + LR
 ```python
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
