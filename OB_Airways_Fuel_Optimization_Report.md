@@ -162,7 +162,7 @@ best_xgb = grid_search.best_estimator_
 print("Best XGBoost params:", grid_search.best_params_)
 ```
 
-### Stacking model XGBoost + LR
+### Stacking model (XGBoost + LinearRegression)
 Then, a **stacking model** was built:
 ```python
 from sklearn.linear_model import LinearRegression
@@ -182,7 +182,7 @@ stack_model.fit(X_train, y_train)
 predictions = stack_model.predict(X_test)
 ```
 
-#### Evaluate results Stacking model XGBoost + LR
+#### Evaluate result of Stacking model (XGBoost + LinearRegression)
 MAE: 387.16 | RMSE: 740.02 | R²: 0.9948
 ```python
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
