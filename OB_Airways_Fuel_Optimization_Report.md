@@ -183,6 +183,7 @@ predictions = stack_model.predict(X_test)
 ```
 
 #### Evaluate results Stacking model XGBoost + LR
+MAE: 387.16 | RMSE: 740.02 | R²: 0.9948
 ```python
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
