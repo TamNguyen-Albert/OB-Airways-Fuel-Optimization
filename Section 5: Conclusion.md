@@ -1,4 +1,4 @@
-## Section 5: Conclusion
+# Section 5: Conclusion
 
 ## 1. Reflection
 
