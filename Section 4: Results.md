@@ -1,7 +1,7 @@
 # Section 4: Results
 ## Model Evaluation and Validation
 
-During the modeling phase, we experimented with four regression algorithms to predict actual flight fuel consumption (`actual_flight_fuel_kilograms`) based on features such as flight distance, estimated takeoff weight, and airport encodings.
+During the modeling phase, I experimented with four regression algorithms to predict actual flight fuel consumption (`actual_flight_fuel_kilograms`) based on features such as flight distance, estimated takeoff weight, and airport encodings.
 
 ### Models and Parameters
 
