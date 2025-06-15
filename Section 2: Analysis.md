@@ -28,7 +28,7 @@ This dataset contains planned flight information prepared prior to departure.
 
 ---
 
-#### 📊 Descriptive Statistics
+#### c. 📊 Descriptive Statistics
 
 A summary of key numeric features (after data cleaning) is shown below:
 
@@ -47,7 +47,7 @@ A summary of key numeric features (after data cleaning) is shown below:
 
 ---
 
-#### 📈 Data Relationships
+#### d. 📈 Data Relationships
 
 - **Fuel vs. Distance**: Scatterplots show a clear linear trend between fuel usage and air distance.
 - **Fuel vs. Takeoff Weight**: Uplifted fuel increases with estimated takeoff weight, highlighting the role of payload.
