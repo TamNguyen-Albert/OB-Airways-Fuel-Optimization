@@ -75,5 +75,3 @@
 - **Stacking Regressor** can be considered if you aim for robustness through ensembling.
 - **Random Forest** is a solid alternative with similar performance and ease of interpretation.
 - **Linear Regression** is only suitable as a baseline or quick benchmark.
-
-🧠 *Evaluation conducted using scikit-learn, XGBoost, and ensemble models in Python.*
