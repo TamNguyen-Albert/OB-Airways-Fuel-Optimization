@@ -78,7 +78,7 @@ print(merged_df.describe())
 ### 3. Data Visualization & Insights
 #### a. Fuel Consumption vs. Flight Distance
 ![image](https://github.com/user-attachments/assets/b856c464-735b-4e81-bacb-1f5187e465fb)
-**Insights**
+**Insights:**
 - There is a clear positive correlation between **flight distance** and **fuel consumption**, confirming the intuitive relationship that longer flights require more fuel.
 - Several short-distance flights appear to consume unusually high fuel amounts, suggesting **possible inefficiencies**, such as long taxiing times, reroutes, or over-fueling.
 - The spread becomes wider at longer distances, indicating **variability in efficiency** that could depend on aircraft type or flight conditions.
@@ -101,7 +101,7 @@ plt.show()
 
 #### b. Uplifted Fuel vs. Estimated Takeoff Weight
 ![image](https://github.com/user-attachments/assets/b5513631-65e7-4ece-b37a-8ac0a55137b2)
-**Insights**
+**Insights:**
 - Fuel uplift generally **increases with estimated takeoff weight**, which aligns with operational expectations.
 - A number of outliers exist where heavy flights received relatively low fuel uplift or vice versa — these anomalies may point to **planning inaccuracies**, equipment constraints, or specific route considerations.
 - A tighter alignment could reduce safety margins and signal **potential optimization opportunities**.
@@ -129,7 +129,7 @@ plt.show()
 
 #### c. Actual vs. Planned Fuel
 ![image](https://github.com/user-attachments/assets/639a2c0b-9f49-41a6-9c36-4f74f9fcb60f)
-**Insights**
+**Insights:**
 - The boxplot reveals that **planned fuel quantities tend to exceed actual consumption**, with a large portion of flights consuming **less fuel than planned**.
 - This over-planning could lead to **excess operational costs** and unnecessary weight during takeoff.
 - Some flights consumed **more than planned**, indicating **risk areas** that should be reviewed for route changes, unexpected delays, or misestimates in planning.
@@ -168,7 +168,7 @@ plt.show()
 
 #### d. Fuel Consumption Over Time
 ![image](https://github.com/user-attachments/assets/3808e527-b09f-46fa-adf8-d3ad9d56bc97)
-**Insights**
+**Insights:**
 - Daily fuel usage shows high fluctuation, indicating varying flight activity.
 - The 7-day rolling average highlights recurring weekly patterns.
 - A noticeable rise in consumption mid-period suggests seasonal demand or increased operations.
