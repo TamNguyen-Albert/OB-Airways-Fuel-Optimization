@@ -1,23 +1,22 @@
 ## Section 3: Methodology
 
 ### Data Preprocessing
-- Joined actual_flights and flight_plan using `flight_id`.
 - Handled missing values and formatted date-time fields.
 - Scaled numeric features and one-hot encoded categorical variables.
 ```python
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 
-# ✅ Tạo bản sao để xử lý tránh thay đổi plan_df gốc
+# Tạo bản sao để xử lý tránh thay đổi plan_df gốc
 df = plan_df.copy()
 
-# ✅ Đảm bảo cột 'air_distance_miles' ở dạng số, lỗi sẽ bị chuyển thành NaN
+# Đảm bảo cột 'air_distance_miles' ở dạng số, lỗi sẽ bị chuyển thành NaN
 df['air_distance_miles'] = pd.to_numeric(df['air_distance_miles'], errors='coerce')
 
-# ✅ Loại bỏ các dòng có missing ở cột quan trọng
+# Loại bỏ các dòng có missing ở cột quan trọng
 df.dropna(subset=['planned_flight_fuel_kilograms', 'air_distance_miles'], inplace=True)
 
-# ✅ Kiểm tra xem 2 cột cần label encode có tồn tại không
+# Kiểm tra xem 2 cột cần label encode có tồn tại không
 if 'departure_airport' in df.columns and 'arrival_airport' in df.columns:
     # Tạo 2 encoder riêng biệt cho từng cột (tránh encode nhầm nghĩa)
     le_departure = LabelEncoder()
@@ -46,22 +45,22 @@ from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-# 🧠 Bước 1: Xác định features (X) và target (y)
+# Bước 1: Xác định features (X) và target (y)
 # Ví dụ: dự đoán lượng nhiên liệu theo khoảng cách và sân bay mã hóa
 X = df[['air_distance_miles', 'departure_encoded', 'arrival_encoded']]
 y = df['planned_flight_fuel_kilograms']
 
-# 🧪 Bước 2: Tách dữ liệu train/test
+# Bước 2: Tách dữ liệu train/test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 🤖 Bước 3: Khởi tạo mô hình
+# Bước 3: Khởi tạo mô hình
 models = {
     "Linear Regression": LinearRegression(),
     "Random Forest": RandomForestRegressor(random_state=42),
     "XGBoost": XGBRegressor(random_state=42, verbosity=0)
 }
 
-# 📊 Bước 4: Huấn luyện và đánh giá
+# Bước 4: Huấn luyện và đánh giá
 results = []
 
 for name, model in models.items():
@@ -93,17 +92,17 @@ print(results_df)
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_absolute_error
 
-# ✅ Khởi tạo mô hình gốc
+# Khởi tạo mô hình gốc
 xgb = XGBRegressor(random_state=42, verbosity=0)
 
-# ✅ Định nghĩa các tham số để Grid Search
+# Định nghĩa các tham số để Grid Search
 param_grid = {
     'n_estimators': [100, 200],
     'max_depth': [3, 5, 7],
     'learning_rate': [0.05, 0.1, 0.2]
 }
 
-# ✅ Thiết lập GridSearchCV với 5-fold cross-validation và MAE làm tiêu chí đánh giá
+# Thiết lập GridSearchCV với 5-fold cross-validation và MAE làm tiêu chí đánh giá
 grid_search = GridSearchCV(
     estimator=xgb,
     param_grid=param_grid,
@@ -113,14 +112,14 @@ grid_search = GridSearchCV(
     verbose=1  # Cho biết quá trình chạy (có thể bỏ nếu muốn yên lặng)
 )
 
-# ✅ Huấn luyện mô hình trên tập huấn luyện
+# Huấn luyện mô hình trên tập huấn luyện
 grid_search.fit(X_train, y_train)
 
-# ✅ Lấy ra mô hình tốt nhất và các tham số tương ứng
+# Lấy ra mô hình tốt nhất và các tham số tương ứng
 best_xgb = grid_search.best_estimator_
 print("✅ Best XGBoost Parameters:", grid_search.best_params_)
 
-# ✅ Dự đoán trên tập kiểm tra và đánh giá
+# Dự đoán trên tập kiểm tra và đánh giá
 y_pred = best_xgb.predict(X_test)
 mae = mean_absolute_error(y_test, y_pred)
 print(f"✅ MAE of Best Model on Test Set: {mae:.2f}")
@@ -137,8 +136,8 @@ from sklearn.ensemble import StackingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 
-# ✅ Đảm bảo best_xgb đã được huấn luyện (từ GridSearchCV)
-# ✅ Đảm bảo X_train, y_train, X_test, y_test đã được chuẩn bị từ trước
+# Đảm bảo best_xgb đã được huấn luyện (từ GridSearchCV)
+# Đảm bảo X_train, y_train, X_test, y_test đã được chuẩn bị từ trước
 
 # Khởi tạo mô hình Stacking Regressor
 stack_model = StackingRegressor(
