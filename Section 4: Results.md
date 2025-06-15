@@ -66,7 +66,7 @@ All models were evaluated on the same test set (`X_test`, `y_test`), using the m
 
 ### 📊 Visual Summary
 
-![Model Comparison Chart](f7d6b217-3cbc-4109-a754-3c210f0c455c.png)
+![image](https://github.com/user-attachments/assets/e2af9eb7-ba9d-4be0-aad4-23319531358b)
 
 ---
 
