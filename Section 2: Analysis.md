@@ -43,13 +43,6 @@ merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
 ```python
 import pandas as pd
 
-# Đọc dữ liệu từ 2 sheet
-actual_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=0)
-plan_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=1)
-
-# Gộp dữ liệu theo flight_id
-merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
-
 # 1. Đổi tên cột cho đồng nhất và dễ xử lý
 merged_df.columns = merged_df.columns.str.strip().str.lower().str.replace(' ', '_')
 
@@ -62,17 +55,17 @@ print("Missing values:\n", missing_summary[missing_summary > 0])
 
 merged_df = merged_df.dropna(subset=['flight_id', 'actual_flight_fuel_kilograms', 'planned_flight_fuel_kilograms'])
 
-# 4. Chuyển đổi kiểu dữ liệu nếu cần
+# 4. Chuyển đổi kiểu dữ liệu
 if 'departure_time' in merged_df.columns:
     merged_df['departure_time'] = pd.to_datetime(merged_df['departure_time'], errors='coerce')
 if 'arrival_time' in merged_df.columns:
     merged_df['arrival_time'] = pd.to_datetime(merged_df['arrival_time'], errors='coerce')
 
-# 5. Loại bỏ các giá trị không hợp lệ (ví dụ: âm hoặc quá lớn)
+# 5. Loại bỏ các giá trị không hợp lệ (âm hoặc quá lớn)
 merged_df = merged_df[(merged_df['actual_flight_fuel_kilograms'] > 0) & 
                       (merged_df['planned_flight_fuel_kilograms'] > 0)]
 
-# 6. Tạo cột mới nếu cần thiết, ví dụ: sai số nhiên liệu
+# 6. Tạo cột mới 
 merged_df['fuel_diff'] = merged_df['actual_flight_fuel_kilograms'] - merged_df['planned_flight_fuel_kilograms']
 merged_df['fuel_ratio'] = merged_df['actual_flight_fuel_kilograms'] / merged_df['planned_flight_fuel_kilograms']
 
@@ -173,37 +166,7 @@ plt.show()
 ```
 ---
 
-#### d. Fuel Efficiency per Flight Hour
-![image](https://github.com/user-attachments/assets/029b83d5-bfff-4278-9ca9-52792125f727)
-- The majority of flights show a **consistent fuel consumption rate per hour**, with the distribution peaking in a narrow band.
-- There are significant outliers with high hourly consumption, likely tied to:
-  - Short flights with long idle/taxi times,
-  - Aircraft type differences,
-  - Operational inefficiencies.
-- Suggests a potential for creating a **fuel efficiency benchmark** to evaluate future flights or aircraft.
-```python
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# ✅ Tính fuel per hour, tránh chia cho 0 hoặc giá trị NaN
-merged_df = merged_df.copy()  # Optional: tránh sửa trực tiếp nếu cần giữ bản gốc
-merged_df = merged_df[merged_df['flight_hours'] > 0]  # Lọc tránh chia cho 0
-merged_df['fuel_per_hour'] = merged_df['actual_flight_fuel_kilograms'] / merged_df['flight_hours']
-
-# ✅ Vẽ histogram với đường KDE
-plt.figure(figsize=(8, 6))
-sns.histplot(data=merged_df, x='fuel_per_hour', kde=True, bins=30, color='teal')
-
-# ✅ Bổ sung tiêu đề và nhãn
-plt.title('Fuel Consumption per Flight Hour')
-plt.xlabel('Fuel per Hour (kg/hour)')
-plt.ylabel('Frequency')
-plt.tight_layout()
-plt.show()
-```
----
-
-#### e. Fuel Consumption Over Time
+#### d. Fuel Consumption Over Time
 ![image](https://github.com/user-attachments/assets/3808e527-b09f-46fa-adf8-d3ad9d56bc97)
 
 - Daily fuel usage shows high fluctuation, indicating varying flight activity.
