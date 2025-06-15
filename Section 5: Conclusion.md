@@ -5,8 +5,8 @@
 This project tackled the problem of **fuel consumption prediction** for OB Airways using both actual and planned flight data. The objective was to accurately predict the actual fuel consumed using planned parameters (such as air distance, departure/arrival airports, and estimated takeoff weight) to help optimize flight fuel planning and reduce inefficiencies.
 
 ### End-to-End Workflow Recap:
-1. **Data Cleaning**: Merged flight plan and actual flight records, removed rows with negative or null values.
-2. **Exploratory Data Analysis**: Identified patterns and correlations between variables (e.g., air distance vs fuel).
+1. **Exploratory Data Analysis**: Identified patterns and correlations between variables (e.g., air distance vs fuel).
+2. **Data Cleaning**: Merged flight plan and actual flight records, removed rows with negative or null values.
 3. **Feature Engineering**: Encoded categorical variables like airport codes, and selected features for modeling.
 4. **Model Training & Evaluation**:
    - Trained and compared 4 models: Linear Regression, Random Forest, XGBoost, and Stacking Regressor.
