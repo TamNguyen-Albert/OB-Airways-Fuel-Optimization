@@ -1,15 +1,91 @@
 ## Section 2: Analysis
 
 ### 1. Data Exploration
-Two datasets are used:
-- **actual_flights:** contains true fuel usage and flight characteristics.
-- **flight_plan:** contains fuel estimates and planned flight details.
+
+This case study is based on two core datasets from OB Airways:
+
+#### a. `actual_flights` Dataset
+This dataset captures real-world operational data from completed flights.
+
+**Key Features:**
+- `flight_id`: Unique identifier of each flight
+- `actual_time_departure`: Actual departure timestamp
+- `actual_flight_fuel_kilograms`: Actual fuel consumed during the flight
+- `uplifted_fuel_kilograms`: Fuel quantity loaded before the flight
+- `estimated_takeoff_weight_kilograms`: Estimated weight of the aircraft at takeoff
+
+---
+
+#### b. `flight_plan` Dataset
+This dataset contains planned flight information prepared prior to departure.
+
+**Key Features:**
+- `flight_id`: Identifier to join with the actual data
+- `departure_airport`: IATA code of departure location
+- `arrival_airport`: IATA code of arrival location
+- `air_distance_miles`: Distance of the planned flight
+- `planned_flight_fuel_kilograms`: Forecasted fuel requirement
+
+---
+
+#### 📊 Descriptive Statistics
+
+A summary of key numeric features (after data cleaning) is shown below:
+
+| Feature                             | Count  | Mean     | Std Dev  | Min   | 25%    | 50%    | 75%    | Max     | IQR    |
+|-------------------------------------|--------|----------|----------|-------|--------|--------|--------|---------|--------|
+| `air_distance_miles`                | 8734   | 982.57   | 756.59   | 34.0  | 637.0  | 815.0  | 918.0  | 5484.0  | 281.0  |
+| `actual_flight_fuel_kilograms`      | 8734   | 7610.62  | 9842.83  | 740.0 | 4440.0 | 5440.0 | 6200.0 | 71840.0 | 1760.0 |
+| `planned_flight_fuel_kilograms`     | 8734   | 7430.16  | 10129.89 | 544.0 | 4184.6 | 5152.0 | 5970.0 | 78164.9 | 1786.4 |
+| `uplifted_fuel_kilograms`           | 8734   | 7810.20  | 10566.95 | 0.0   | 3290.0 | 6192.0 | 8679.0 | 74630.4 | 5388.8 |
+| `estimated_takeoff_weight_kg`       | 8734   | 71946.02 | 32203.22 | 45501 | 59646  | 66849  | 68970  | 233000  | 9324.0 |
+
+**Insights:**
+- There is **high variance** in fuel-related variables, indicating a wide operational range.
+- **Outliers** may exist in `uplifted_fuel_kilograms` and `estimated_takeoff_weight_kilograms` based on their large max values.
+- All features show **non-normal, right-skewed distributions**, suggesting the need for robust models or feature scaling.
+
+---
+
+#### 📈 Data Relationships
+
+- **Fuel vs. Distance**: Scatterplots show a clear linear trend between fuel usage and air distance.
+- **Fuel vs. Takeoff Weight**: Uplifted fuel increases with estimated takeoff weight, highlighting the role of payload.
+- **Boxplot** comparisons show that **actual fuel is often lower than planned**, implying room for optimization in flight planning.
+
+These findings shaped the selection of predictive models and performance metrics in later stages.
+
 
 ```python
 import pandas as pd
 actual_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=0)
 plan_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=1)
 merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
+```
+
+```python
+import pandas as pd
+
+# Chọn các cột số liên quan đến phân tích mô hình
+columns_to_describe = [
+    'air_distance_miles',
+    'actual_flight_fuel_kilograms',
+    'planned_flight_fuel_kilograms',
+    'uplifted_fuel_kilograms',
+    'estimated_takeoff_weight_kilograms'
+]
+
+# Tạo bảng mô tả thống kê
+desc_stats = merged_df[columns_to_describe].describe().T
+
+# Thêm cột IQR (interquartile range)
+desc_stats['IQR'] = desc_stats['75%'] - desc_stats['25%']
+
+# Làm tròn số cho dễ đọc
+desc_stats = desc_stats.round(2)
+
+# Hiển thị bảng thống kê mô tả
+print(desc_stats)
 ```
 
 ### 2. Data Cleaning
