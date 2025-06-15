@@ -1,6 +1,6 @@
 ## Section 2: Analysis
 
-### Data Exploration
+### 1. Data Exploration
 Two datasets are used:
 - **actual_flights:** contains true fuel usage and flight characteristics.
 - **flight_plan:** contains fuel estimates and planned flight details.
@@ -14,32 +14,32 @@ merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
 
 Each dataset has approximately 10,000 rows.
 
-### Data Cleaning
-#### 1. Column Normalization
+### 2. Data Cleaning
+#### a. Column Normalization
 - Standardized all column names: 
   - Stripped whitespace
   - Converted to lowercase
   - Replaced spaces with underscores
 
-#### 2. Duplicate Removal
+#### b. Duplicate Removal
 - Dropped any exact duplicate rows
 
-#### 3. Handling Missing Values
+#### c. Handling Missing Values
 - Checked for missing values
 - Dropped rows where essential fields like `flight_id`, `actual_flight_fuel_kilograms`, or `planned_flight_fuel_kilograms` were missing.
 
-## 4. Data Type Conversion
+#### d. Data Type Conversion
 - Converted date/time columns (e.g., `departure_time`, `arrival_time`) to `datetime` objects
 
-## 5. Filtering Invalid Values
+#### e. Filtering Invalid Values
 - Removed rows with invalid fuel values (e.g., negative or zero)
 
-## 6. Feature Engineering
+#### f. Feature Engineering
 - Created new columns for analysis:
   - `fuel_diff`: Difference between actual and planned fuel
   - `fuel_ratio`: Ratio of actual to planned fuel
 
-## 7. Final Checks
+#### g. Final Checks
 - Used `.info()` and `.describe()` to inspect the cleaned dataset structure and summary statistics.
 
 ```python
@@ -91,8 +91,8 @@ print(merged_df.describe())
 ```
 
 
-### Data Visualization & Insights
-#### 1. Fuel Consumption vs. Flight Distance!
+### 3. Data Visualization & Insights
+#### a. Fuel Consumption vs. Flight Distance!
 ![image](https://github.com/user-attachments/assets/b856c464-735b-4e81-bacb-1f5187e465fb)
 
 - There is a clear positive correlation between **flight distance** and **fuel consumption**, confirming the intuitive relationship that longer flights require more fuel.
@@ -115,7 +115,7 @@ plt.show()
 ```
 ---
 
-#### 2. Uplifted Fuel vs. Estimated Takeoff Weight
+#### b. Uplifted Fuel vs. Estimated Takeoff Weight
 ![image](https://github.com/user-attachments/assets/b5513631-65e7-4ece-b37a-8ac0a55137b2)
 
 - Fuel uplift generally **increases with estimated takeoff weight**, which aligns with operational expectations.
@@ -143,7 +143,7 @@ plt.show()
 ```
 ---
 
-#### 3. Actual vs. Planned Fuel (Boxplot)
+#### c. Actual vs. Planned Fuel (Boxplot)
 ![image](https://github.com/user-attachments/assets/639a2c0b-9f49-41a6-9c36-4f74f9fcb60f)
 
 - The boxplot reveals that **planned fuel quantities tend to exceed actual consumption**, with a large portion of flights consuming **less fuel than planned**.
@@ -183,7 +183,7 @@ plt.show()
 ```
 ---
 
-#### 4. Fuel Efficiency per Flight Hour
+#### d. Fuel Efficiency per Flight Hour
 ![image](https://github.com/user-attachments/assets/029b83d5-bfff-4278-9ca9-52792125f727)
 
 
@@ -215,7 +215,7 @@ plt.show()
 ```
 ---
 
-#### 5. Fuel Consumption Over Time
+#### e. Fuel Consumption Over Time
 ![image](https://github.com/user-attachments/assets/3808e527-b09f-46fa-adf8-d3ad9d56bc97)
 
 - Daily fuel usage shows high fluctuation, indicating varying flight activity.
@@ -263,6 +263,6 @@ plt.show()
 ```
 ---
 
-### Opportunities for Improvement
+### 4. Opportunities for Improvement
 - Improve prediction of planned fuel for better resource planning.
 - Identify patterns leading to underestimation or overestimation.
