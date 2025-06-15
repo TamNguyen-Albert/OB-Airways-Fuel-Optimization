@@ -109,7 +109,7 @@ grid_search = GridSearchCV(
     cv=5,
     scoring='neg_mean_absolute_error',
     n_jobs=-1,
-    verbose=1  # Cho biết quá trình chạy (có thể bỏ nếu muốn yên lặng)
+    verbose=1
 )
 
 # Huấn luyện mô hình trên tập huấn luyện
@@ -136,9 +136,6 @@ from sklearn.ensemble import StackingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 
-# Đảm bảo best_xgb đã được huấn luyện (từ GridSearchCV)
-# Đảm bảo X_train, y_train, X_test, y_test đã được chuẩn bị từ trước
-
 # Khởi tạo mô hình Stacking Regressor
 stack_model = StackingRegressor(
     estimators=[
@@ -148,7 +145,7 @@ stack_model = StackingRegressor(
     final_estimator=LinearRegression(),  # meta-model
     cv=5,
     n_jobs=-1,
-    passthrough=False  # Đặt True nếu muốn truyền X gốc vào final_estimator cùng với predictions
+    passthrough=False
 )
 
 # Huấn luyện mô hình
