@@ -1,10 +1,10 @@
 ## Section 5: Conclusion
 
-## Reflection
+## 1. Reflection
 
 This project tackled the problem of **fuel consumption prediction** for OB Airways using both actual and planned flight data. The objective was to accurately predict the actual fuel consumed using planned parameters (such as air distance, departure/arrival airports, and estimated takeoff weight) to help optimize flight fuel planning and reduce inefficiencies.
 
-### End-to-End Workflow Recap:
+### 2. End-to-End Workflow Recap:
 1. **Exploratory Data Analysis**: Identified patterns and correlations between variables (e.g., air distance vs fuel).
 2. **Data Cleaning**: Merged flight plan and actual flight records, removed rows with negative or null values.
 3. **Feature Engineering**: Encoded categorical variables like airport codes, and selected features for modeling.
@@ -12,7 +12,7 @@ This project tackled the problem of **fuel consumption prediction** for OB Airwa
    - Trained and compared 4 models: Linear Regression, Random Forest, XGBoost, and Stacking Regressor.
    - Used 3 metrics: MAE, RMSE, and R² Score for fair comparison.
 
-### Interesting Insight:
+### 3. Interesting Insight:
 The **XGBoost model** delivered the best results, with:
 - MAE: **534.23 kg**
 - RMSE: **1,124.22 kg**
@@ -20,7 +20,7 @@ The **XGBoost model** delivered the best results, with:
 
 Interestingly, the **Stacking Regressor** (which combines XGBoost and Linear Regression) did not outperform XGBoost alone. This highlights that while ensemble methods are generally robust, they may not always yield performance improvements when the base model is already optimal.
 
-### Challenge:
+### 4. Challenge:
 One of the more difficult aspects was **handling the wide distribution of fuel data** and potential outliers (some flights had extremely high fuel usage or distance). Choosing a model robust to these outliers while maintaining generalization required careful model selection and validation.
 
 ---
@@ -52,14 +52,14 @@ With these improvements, OB Airways can enhance predictive accuracy even further
 
 ## 💼 Business Impact
 
-1. **Fuel Efficiency Optimization**  
+### 1. **Fuel Efficiency Optimization**  
    Accurate fuel predictions help reduce **overloading**, lower aircraft weight, and improve in-flight **fuel efficiency**, directly lowering operational costs and emissions.
 
-2. **Cost Savings**  
+### 2. **Cost Savings**  
    With a prediction error margin of approximately **534 kg per flight**, OB Airways could save an estimated **$300–$600 USD per flight**, depending on fuel prices, adding up to **significant annual savings**.
 
-3. **Enhanced Operational Planning**  
+### 3. **Enhanced Operational Planning**  
    Predictive insights allow flight planners to detect discrepancies between planned and expected fuel needs, enabling **data-driven decisions** for dispatch and ground operations.
 
-4. **Sustainability and Compliance**  
+### 4. **Sustainability and Compliance**  
    Minimizing fuel waste contributes to **lower CO₂ emissions**, supporting OB Airways’ **ESG goals** and compliance with **environmental regulations** in the aviation sector.
