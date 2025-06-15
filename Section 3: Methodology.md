@@ -1,4 +1,4 @@
-## Section 3: Methodology
+# Section 3: Methodology
 
 ### Data Preprocessing
 - Handled missing values and formatted date-time fields.
