@@ -50,8 +50,6 @@ plan_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', she
 # Gộp dữ liệu theo flight_id
 merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
 
-# ================== BẮT ĐẦU CLEANING ==================
-
 # 1. Đổi tên cột cho đồng nhất và dễ xử lý
 merged_df.columns = merged_df.columns.str.strip().str.lower().str.replace(' ', '_')
 
@@ -62,14 +60,9 @@ merged_df = merged_df.drop_duplicates()
 missing_summary = merged_df.isnull().sum()
 print("Missing values:\n", missing_summary[missing_summary > 0])
 
-# Có thể lựa chọn:
-# - Drop nếu missing không quan trọng
-# - Fillna nếu cần giữ lại
-# Ví dụ: xóa nếu thiếu thông tin trọng yếu
 merged_df = merged_df.dropna(subset=['flight_id', 'actual_flight_fuel_kilograms', 'planned_flight_fuel_kilograms'])
 
 # 4. Chuyển đổi kiểu dữ liệu nếu cần
-# Ví dụ: chuyển thời gian về datetime
 if 'departure_time' in merged_df.columns:
     merged_df['departure_time'] = pd.to_datetime(merged_df['departure_time'], errors='coerce')
 if 'arrival_time' in merged_df.columns:
@@ -90,7 +83,7 @@ print(merged_df.describe())
 
 
 ### 3. Data Visualization & Insights
-#### a. Fuel Consumption vs. Flight Distance!
+#### a. Fuel Consumption vs. Flight Distance
 ![image](https://github.com/user-attachments/assets/b856c464-735b-4e81-bacb-1f5187e465fb)
 
 - There is a clear positive correlation between **flight distance** and **fuel consumption**, confirming the intuitive relationship that longer flights require more fuel.
@@ -141,7 +134,7 @@ plt.show()
 ```
 ---
 
-#### c. Actual vs. Planned Fuel (Boxplot)
+#### c. Actual vs. Planned Fuel
 ![image](https://github.com/user-attachments/assets/639a2c0b-9f49-41a6-9c36-4f74f9fcb60f)
 
 - The boxplot reveals that **planned fuel quantities tend to exceed actual consumption**, with a large portion of flights consuming **less fuel than planned**.
@@ -177,14 +170,11 @@ plt.tight_layout()
 
 # Hiển thị biểu đồ
 plt.show()
-
 ```
 ---
 
 #### d. Fuel Efficiency per Flight Hour
 ![image](https://github.com/user-attachments/assets/029b83d5-bfff-4278-9ca9-52792125f727)
-
-
 - The majority of flights show a **consistent fuel consumption rate per hour**, with the distribution peaking in a narrow band.
 - There are significant outliers with high hourly consumption, likely tied to:
   - Short flights with long idle/taxi times,
