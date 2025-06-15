@@ -7,9 +7,12 @@
 Fuel consumption is one of the most significant operational costs for airlines. OB Airways aims to optimize its planned fuel estimation system to improve accuracy, reduce waste, and support sustainable operations.
 
 ### Metrics
-To evaluate model performance, the following metrics are used:
-- **MAE (Mean Absolute Error):** measures average prediction error.
-- **RMSE (Root Mean Squared Error):** penalizes larger errors more severely.
-- **R² (R-squared):** indicates the proportion of variance explained by the model.
 
----
+**Business Metrics:**
+- **Total Fuel Saved (kg):** Measures the absolute fuel reduction achieved.
+- **Fuel Efficiency (kg/hour):** Tracks how efficiently aircraft operate over time.
+- **Cost Savings ($):** Converts fuel savings into monetary value for business impact.
+
+**Model Evaluation Metrics:**
+- **MAE / RMSE:** Used to evaluate the predictive accuracy of fuel consumption models.
+- **R² Score:** Measures how well the model explains variance in actual fuel usage.
