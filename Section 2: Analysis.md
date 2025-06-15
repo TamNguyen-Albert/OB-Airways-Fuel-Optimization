@@ -12,8 +12,6 @@ plan_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', she
 merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
 ```
 
-Each dataset has approximately 10,000 rows.
-
 ### 2. Data Cleaning
 #### a. Column Normalization
 - Standardized all column names: 
