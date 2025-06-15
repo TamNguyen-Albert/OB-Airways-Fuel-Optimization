@@ -128,6 +128,7 @@ print(f"✅ MAE of Best Model on Test Set: {mae:.2f}")
 
 ### Stacking model (XGBoost + LinearRegression)
 Then, a **stacking model** was built:
+
 ![image](https://github.com/user-attachments/assets/36659f1c-1878-493c-85bc-771a283595b4)
 
 ```python
