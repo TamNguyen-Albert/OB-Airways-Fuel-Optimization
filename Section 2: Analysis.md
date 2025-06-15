@@ -1,4 +1,4 @@
-## Section 2: Analysis
+# Section 2: Analysis
 
 ### 1. Data Exploration
 
