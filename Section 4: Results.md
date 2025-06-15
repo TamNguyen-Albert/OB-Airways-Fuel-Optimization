@@ -1,9 +1,9 @@
 # Section 4: Results
-## 📊 Model Evaluation and Validation
+## Model Evaluation and Validation
 
 During the modeling phase, we experimented with four regression algorithms to predict actual flight fuel consumption (`actual_flight_fuel_kilograms`) based on features such as flight distance, estimated takeoff weight, and airport encodings.
 
-### 🔧 Models and Parameters
+### Models and Parameters
 
 1. **Linear Regression**
    - A baseline model.
@@ -29,7 +29,7 @@ During the modeling phase, we experimented with four regression algorithms to pr
    - Final estimator: Linear Regression.
    - Uses 5-fold cross-validation within the stacking process.
 
-### ⚙️ Evaluation Metrics
+### Evaluation Metrics
 
 - **MAE (Mean Absolute Error)**: How far predictions deviate on average.
 - **RMSE (Root Mean Square Error)**: Penalizes larger errors more heavily.
@@ -39,7 +39,7 @@ All models were evaluated on the same test set (`X_test`, `y_test`), using the m
 
 ---
 
-## ✅ Justification: Performance Analysis and Comparison
+## Justification: Performance Analysis and Comparison
 
 ### 📈 Model Performance Summary
 
@@ -50,15 +50,15 @@ All models were evaluated on the same test set (`X_test`, `y_test`), using the m
 | XGBoost             |   534.23 | 1,124.22  | 0.9880   |
 | Stacking Regressor  |   540.24 | 1,143.56  | 0.9875   |
 
-> 📌 **Best Performing Model**: **XGBoost**, due to its superior accuracy across all metrics.
+>  **Best Performing Model**: **XGBoost**, due to its superior accuracy across all metrics.
 
-### 🔍 Why Did XGBoost Perform Better?
+### Why Did XGBoost Perform Better?
 
 - **Gradient Boosting Framework**: Sequential learning focuses on correcting prior errors.
 - **Regularization (L1/L2)**: Helps prevent overfitting.
 - **Flexible Hyperparameter Tuning**: Allowed us to optimize depth, learning rate, and estimator count.
 
-### 🧠 Interpretation:
+### Interpretation:
 - **Linear Regression** underfits the data due to its linear nature, missing complex patterns.
 - **Random Forest** improved significantly by modeling nonlinearities and interactions but lacked the regularization benefits of boosting.
 - **XGBoost** achieved the best balance between bias and variance.
@@ -70,6 +70,6 @@ All models were evaluated on the same test set (`X_test`, `y_test`), using the m
 
 ---
 
-### 🏁 Conclusion
+### Conclusion
 
 From the model validation and performance metrics, XGBoost emerges as the most reliable and accurate model for fuel consumption prediction. It is recommended for production deployment to support more accurate fuel uplift planning and cost optimization in OB Airways' operations.
