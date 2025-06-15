@@ -105,7 +105,8 @@ plt.show()
 ---
 
 #### 5. Fuel Consumption Over Time
-![image](https://github.com/user-attachments/assets/23470b98-dd6c-4f83-b1f3-6173a3716258)
+![image](https://github.com/user-attachments/assets/cba4bf82-9d9e-4459-a6e6-e2c0a539d061)
+
 
 - Daily fuel usage shows high fluctuation, indicating varying flight activity.
 - The 7-day rolling average highlights recurring weekly patterns.
