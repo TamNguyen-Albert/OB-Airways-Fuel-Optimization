@@ -2,7 +2,7 @@
 
 ## ✅ Conclusion
 
-After evaluating the performance of four machine learning models—**Linear Regression**, **Random Forest**, **XGBoost**, and **Stacking Regressor**—we identified **XGBoost** as the best-performing model for predicting actual flight fuel consumption.
+After evaluating the performance of four machine learning models: **Linear Regression**, **Random Forest**, **XGBoost** and **Stacking Regressor**— I identified **XGBoost** as the best-performing model for predicting actual flight fuel consumption.
 
 With a **Mean Absolute Error (MAE)** of just **534.23 kg** and an **R² score** of **0.9880**, XGBoost demonstrated excellent capability in capturing complex, nonlinear relationships between flight characteristics and fuel usage.
 
@@ -26,7 +26,3 @@ The **Stacking Regressor**, combining XGBoost and Linear Regression, also delive
 
 5. **Scalable AI Integration**  
    The ML pipeline is adaptable across different **aircraft types** and **flight routes**, making it feasible to deploy AI-based optimization **across the entire fleet**.
-
----
-
-*This analysis was developed using Python with scikit-learn, XGBoost, and ensemble modeling techniques.*
