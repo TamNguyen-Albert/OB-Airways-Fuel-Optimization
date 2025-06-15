@@ -1,14 +1,14 @@
 ## Section 4: Results
 # ✈️ Fuel Consumption Prediction – Model Evaluation Report
 
-## 📦 Dataset Overview
+## Dataset Overview
 - **Target Variable**: `actual_flight_fuel_kilograms`
 - **Features Used**: Air distance, estimated takeoff weight, encoded airports, etc.
 - **Train/Test Split**: 80% training – 20% testing
 
 ---
 
-## 🧪 1. Linear Regression (Baseline Model)
+## 1. Linear Regression (Baseline Model)
 
 | Metric | Value |
 |--------|--------|
@@ -16,11 +16,11 @@
 | RMSE   | 2,773.34 kg |
 | R²     | 0.9267 |
 
-❗ While simple and interpretable, this model performs significantly worse than others in both error metrics and explanatory power.
+- While simple and interpretable, this model performs significantly worse than others in both error metrics and explanatory power.
 
 ---
 
-## 🌲 2. Random Forest Regressor
+## 2. Random Forest Regressor
 
 | Metric | Value |
 |--------|--------|
@@ -28,11 +28,11 @@
 | RMSE   | 1,129.82 kg |
 | R²     | 0.9878 |
 
-✅ Strong performance with low error and high R². Effectively captures nonlinear patterns without extensive tuning.
+- Strong performance with low error and high R². Effectively captures nonlinear patterns without extensive tuning.
 
 ---
 
-## 🚀 3. XGBoost Regressor
+## 3. XGBoost Regressor
 
 | Metric | Value |
 |--------|--------|
@@ -40,12 +40,12 @@
 | RMSE   | 1,124.22 kg |
 | R²     | 0.9880 |
 
-✅ Best standalone performance.
-✅ Well-suited for structured tabular data like flight logs.
+- Best standalone performance.
+- Well-suited for structured tabular data like flight logs.
 
 ---
 
-## 🧠 4. Stacking Regressor (XGBoost + Linear Regression)
+## 4. Stacking Regressor (XGBoost + Linear Regression)
 
 | Metric | Value |
 |--------|--------|
@@ -53,8 +53,8 @@
 | RMSE   | 1,143.56 kg |
 | R²     | 0.9875 |
 
-✅ Very competitive with XGBoost, combining the strengths of linear and nonlinear models.
-✅ Slight trade-off in RMSE vs. XGBoost, but may generalize better in some edge cases.
+- Very competitive with XGBoost, combining the strengths of linear and nonlinear models.
+- Slight trade-off in RMSE vs. XGBoost, but may generalize better in some edge cases.
 
 ---
 
@@ -69,7 +69,7 @@
 
 ---
 
-## ✅ Recommendation
+## Recommendation
 
 - **Use XGBoost** as the primary deployment model for best performance.
 - **Stacking Regressor** can be considered if you aim for robustness through ensembling.
