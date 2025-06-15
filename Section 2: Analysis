@@ -133,7 +133,6 @@ plt.show()
 ```
 ---
 
-
 ### Opportunities for Improvement
 - Improve prediction of planned fuel for better resource planning.
 - Identify patterns leading to underestimation or overestimation.
