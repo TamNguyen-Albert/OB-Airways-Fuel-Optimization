@@ -43,7 +43,7 @@ While the results are strong, there are several ways this analysis can be improv
 ### 4. **Retraining Pipeline**
 - Build a **scheduled retraining pipeline** (weekly/monthly) to refresh the model with new operational data and maintain performance.
 
----
+
 
 With these improvements, OB Airways can enhance predictive accuracy even further and move towards **fuel cost optimization at scale**.
 
