@@ -1,24 +1,79 @@
 ## Section 4: Results
-Three models were evaluated on the test set: Linear Regression, Random Forest, and XGBoost. Subsequently, a Stacking Regressor combining XGBoost (as base) and Linear Regression (as meta-model) was developed and tested.
+# ✈️ Fuel Consumption Prediction – Model Evaluation Report
 
-The results are summarized in the table below:  
-| Model                      | MAE (kg) | RMSE (kg) | R²     |
-|---------------------------|----------|-----------|--------|
-| Linear Regression         | 1022.19  | 1505.89   | 0.9784 |
-| Random Forest Regressor   | 540.76   | 944.51    | 0.9915 |
-| XGBoost Regressor         | 459.80   | 875.69    | 0.9927 |
-| **Stacking (XGBoost + LR)** | **393.88** | **772.12** | **0.9943** |
-  
-As shown, the stacking model clearly outperformed all individual models in terms of MAE, RMSE, and R². This indicates that it was able to capture both complex nonlinear relationships and overall trends more effectively.
+## 📦 Dataset Overview
+- **Target Variable**: `actual_flight_fuel_kilograms`
+- **Features Used**: Air distance, estimated takeoff weight, encoded airports, etc.
+- **Train/Test Split**: 80% training – 20% testing
 
-```python
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-import numpy as np
+---
 
-preds = stack_model.predict(X_test)
-mae = mean_absolute_error(y_test, preds)
-rmse = np.sqrt(mean_squared_error(y_test, preds))
-r2 = r2_score(y_test, preds)
+## 🧪 1. Linear Regression (Baseline Model)
 
-print(f"📊 MAE: {mae:.2f} | RMSE: {rmse:.2f} | R²: {r2:.4f}")
-```
+| Metric | Value |
+|--------|--------|
+| MAE    | 1,785.23 kg |
+| RMSE   | 2,773.34 kg |
+| R²     | 0.9267 |
+
+❗ While simple and interpretable, this model performs significantly worse than others in both error metrics and explanatory power.
+
+---
+
+## 🌲 2. Random Forest Regressor
+
+| Metric | Value |
+|--------|--------|
+| MAE    | 596.48 kg |
+| RMSE   | 1,129.82 kg |
+| R²     | 0.9878 |
+
+✅ Strong performance with low error and high R². Effectively captures nonlinear patterns without extensive tuning.
+
+---
+
+## 🚀 3. XGBoost Regressor
+
+| Metric | Value |
+|--------|--------|
+| MAE    | 534.23 kg |
+| RMSE   | 1,124.22 kg |
+| R²     | 0.9880 |
+
+✅ Best standalone performance.
+✅ Well-suited for structured tabular data like flight logs.
+
+---
+
+## 🧠 4. Stacking Regressor (XGBoost + Linear Regression)
+
+| Metric | Value |
+|--------|--------|
+| MAE    | 540.24 kg |
+| RMSE   | 1,143.56 kg |
+| R²     | 0.9875 |
+
+✅ Very competitive with XGBoost, combining the strengths of linear and nonlinear models.
+✅ Slight trade-off in RMSE vs. XGBoost, but may generalize better in some edge cases.
+
+---
+
+## 📊 Model Comparison Summary
+
+| Model               | MAE (kg) | RMSE (kg) | R² Score |
+|--------------------|----------|-----------|----------|
+| Linear Regression  | 1,785.23 | 2,773.34  | 0.9267   |
+| Random Forest      |   596.48 | 1,129.82  | 0.9878   |
+| XGBoost            |   534.23 | 1,124.22  | 0.9880   |
+| Stacking Regressor |   540.24 | 1,143.56  | 0.9875   |
+
+---
+
+## ✅ Recommendation
+
+- **Use XGBoost** as the primary deployment model for best performance.
+- **Stacking Regressor** can be considered if you aim for robustness through ensembling.
+- **Random Forest** is a solid alternative with similar performance and ease of interpretation.
+- **Linear Regression** is only suitable as a baseline or quick benchmark.
+
+🧠 *Evaluation conducted using scikit-learn, XGBoost, and ensemble models in Python.*
