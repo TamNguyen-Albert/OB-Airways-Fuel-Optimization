@@ -14,62 +14,178 @@ merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
 
 Each dataset has approximately 10,000 rows.
 
+### Data Cleaning
+#### 1. Column Normalization
+- Standardized all column names: 
+  - Stripped whitespace
+  - Converted to lowercase
+  - Replaced spaces with underscores
+
+#### 2. Duplicate Removal
+- Dropped any exact duplicate rows
+
+#### 3. Handling Missing Values
+- Checked for missing values
+- Dropped rows where essential fields like `flight_id`, `actual_flight_fuel_kilograms`, or `planned_flight_fuel_kilograms` were missing.
+
+## 4. Data Type Conversion
+- Converted date/time columns (e.g., `departure_time`, `arrival_time`) to `datetime` objects
+
+## 5. Filtering Invalid Values
+- Removed rows with invalid fuel values (e.g., negative or zero)
+
+## 6. Feature Engineering
+- Created new columns for analysis:
+  - `fuel_diff`: Difference between actual and planned fuel
+  - `fuel_ratio`: Ratio of actual to planned fuel
+
+## 7. Final Checks
+- Used `.info()` and `.describe()` to inspect the cleaned dataset structure and summary statistics.
+
+```python
+import pandas as pd
+
+# Đọc dữ liệu từ 2 sheet
+actual_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=0)
+plan_df = pd.read_excel('/content/drive/MyDrive/Ob_airways/ob_airways.xlsx', sheet_name=1)
+
+# Gộp dữ liệu theo flight_id
+merged_df = pd.merge(plan_df, actual_df, on='flight_id', how='left')
+
+# ================== BẮT ĐẦU CLEANING ==================
+
+# 1. Đổi tên cột cho đồng nhất và dễ xử lý
+merged_df.columns = merged_df.columns.str.strip().str.lower().str.replace(' ', '_')
+
+# 2. Kiểm tra và loại bỏ các dòng bị duplicate (nếu có)
+merged_df = merged_df.drop_duplicates()
+
+# 3. Kiểm tra và xử lý missing values
+missing_summary = merged_df.isnull().sum()
+print("Missing values:\n", missing_summary[missing_summary > 0])
+
+# Có thể lựa chọn:
+# - Drop nếu missing không quan trọng
+# - Fillna nếu cần giữ lại
+# Ví dụ: xóa nếu thiếu thông tin trọng yếu
+merged_df = merged_df.dropna(subset=['flight_id', 'actual_flight_fuel_kilograms', 'planned_flight_fuel_kilograms'])
+
+# 4. Chuyển đổi kiểu dữ liệu nếu cần
+# Ví dụ: chuyển thời gian về datetime
+if 'departure_time' in merged_df.columns:
+    merged_df['departure_time'] = pd.to_datetime(merged_df['departure_time'], errors='coerce')
+if 'arrival_time' in merged_df.columns:
+    merged_df['arrival_time'] = pd.to_datetime(merged_df['arrival_time'], errors='coerce')
+
+# 5. Loại bỏ các giá trị không hợp lệ (ví dụ: âm hoặc quá lớn)
+merged_df = merged_df[(merged_df['actual_flight_fuel_kilograms'] > 0) & 
+                      (merged_df['planned_flight_fuel_kilograms'] > 0)]
+
+# 6. Tạo cột mới nếu cần thiết, ví dụ: sai số nhiên liệu
+merged_df['fuel_diff'] = merged_df['actual_flight_fuel_kilograms'] - merged_df['planned_flight_fuel_kilograms']
+merged_df['fuel_ratio'] = merged_df['actual_flight_fuel_kilograms'] / merged_df['planned_flight_fuel_kilograms']
+
+# Kiểm tra lại kết quả
+print(merged_df.info())
+print(merged_df.describe())
+```
+
+
 ### Data Visualization & Insights
-#### 1. Fuel Consumption vs. Flight Distance
-![image](https://github.com/user-attachments/assets/2b5b10aa-ba20-45a8-b5e6-8df6ab1805d1)
+#### 1. Fuel Consumption vs. Flight Distance!
+![image](https://github.com/user-attachments/assets/b856c464-735b-4e81-bacb-1f5187e465fb)
 
 - There is a clear positive correlation between **flight distance** and **fuel consumption**, confirming the intuitive relationship that longer flights require more fuel.
 - Several short-distance flights appear to consume unusually high fuel amounts, suggesting **possible inefficiencies**, such as long taxiing times, reroutes, or over-fueling.
 - The spread becomes wider at longer distances, indicating **variability in efficiency** that could depend on aircraft type or flight conditions.
 
 ```python
-sns.scatterplot(data= merged_df, x='air_distance_miles', y='actual_flight_fuel_kilograms')
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Scatter plot: Flight Distance vs Actual Fuel Consumption
+plt.figure(figsize=(10, 6))  # Optional: set figure size
+sns.scatterplot(data=merged_df, x='air_distance_miles', y='actual_flight_fuel_kilograms')
+
 plt.title('Fuel Consumption vs. Flight Distance')
 plt.xlabel('Flight Distance (miles)')
-plt.ylabel('Actual Fuel (kg)')
+plt.ylabel('Actual Fuel Consumption (kg)')
 plt.tight_layout()
 plt.show()
 ```
 ---
 
 #### 2. Uplifted Fuel vs. Estimated Takeoff Weight
-![image](https://github.com/user-attachments/assets/26f30292-5edb-4296-b36b-1f39b8329fa7)
+![image](https://github.com/user-attachments/assets/b5513631-65e7-4ece-b37a-8ac0a55137b2)
 
 - Fuel uplift generally **increases with estimated takeoff weight**, which aligns with operational expectations.
 - A number of outliers exist where heavy flights received relatively low fuel uplift or vice versa — these anomalies may point to **planning inaccuracies**, equipment constraints, or specific route considerations.
 - A tighter alignment could reduce safety margins and signal **potential optimization opportunities**.
 
 ```python
-sns.scatterplot(data=merged_df, x='estimated_takeoff_weight_kilograms', y='uplifted_fuel_kilograms')
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Scatter plot: Estimated Takeoff Weight vs Uplifted Fuel
+plt.figure(figsize=(10, 6))  # Tùy chọn: thiết lập kích thước biểu đồ
+sns.scatterplot(
+    data=merged_df,
+    x='estimated_takeoff_weight_kilograms',
+    y='uplifted_fuel_kilograms'
+)
+
 plt.title('Uplifted Fuel vs. Estimated Takeoff Weight')
 plt.xlabel('Estimated Takeoff Weight (kg)')
 plt.ylabel('Uplifted Fuel (kg)')
 plt.tight_layout()
 plt.show()
+
 ```
 ---
 
 #### 3. Actual vs. Planned Fuel (Boxplot)
-![image](https://github.com/user-attachments/assets/8a8aba90-dbef-4479-8720-6ecc7b559b9f)
+![image](https://github.com/user-attachments/assets/639a2c0b-9f49-41a6-9c36-4f74f9fcb60f)
 
 - The boxplot reveals that **planned fuel quantities tend to exceed actual consumption**, with a large portion of flights consuming **less fuel than planned**.
 - This over-planning could lead to **excess operational costs** and unnecessary weight during takeoff.
 - Some flights consumed **more than planned**, indicating **risk areas** that should be reviewed for route changes, unexpected delays, or misestimates in planning.
 ```python
-fuel_df = pd.DataFrame({
-    'Actual Fuel': merged_df['actual_flight_fuel_kilograms'],
-    'Planned Fuel': merged_df['planned_flight_fuel_kilograms']
-}).melt(var_name='Type', value_name='Fuel (kg)')
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-sns.boxplot(data=fuel_df, x='Type', y='Fuel (kg)', palette='pastel')
+# Bước 1: Tạo DataFrame dạng long format để vẽ biểu đồ
+fuel_df = merged_df[['actual_flight_fuel_kilograms', 'planned_flight_fuel_kilograms']].rename(
+    columns={
+        'actual_flight_fuel_kilograms': 'Actual Fuel',
+        'planned_flight_fuel_kilograms': 'Planned Fuel'
+    }
+).melt(var_name='Type', value_name='Fuel (kg)')
+
+# Bước 2: Vẽ biểu đồ boxplot + stripplot
+plt.figure(figsize=(8, 6))
+
+# Vẽ boxplot
+sns.boxplot(data=fuel_df, x='Type', y='Fuel (kg)', palette='pastel', width=0.4)
+
+# Vẽ stripplot để thấy phân phối dữ liệu
+sns.stripplot(data=fuel_df, x='Type', y='Fuel (kg)', color='gray', alpha=0.4, jitter=0.25, size=2)
+
+# Thêm tiêu đề và nhãn
 plt.title('Distribution of Actual vs. Planned Fuel')
+plt.xlabel('Fuel Type')
+plt.ylabel('Fuel (kg)')
 plt.tight_layout()
+
+# Hiển thị biểu đồ
 plt.show()
+
 ```
 ---
 
 #### 4. Fuel Efficiency per Flight Hour
-![image](https://github.com/user-attachments/assets/fdbbba62-3829-4fcb-af28-ec81ef164d3c)
+![image](https://github.com/user-attachments/assets/029b83d5-bfff-4278-9ca9-52792125f727)
+
 
 - The majority of flights show a **consistent fuel consumption rate per hour**, with the distribution peaking in a narrow band.
 - There are significant outliers with high hourly consumption, likely tied to:
@@ -78,19 +194,29 @@ plt.show()
   - Operational inefficiencies.
 - Suggests a potential for creating a **fuel efficiency benchmark** to evaluate future flights or aircraft.
 ```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# ✅ Tính fuel per hour, tránh chia cho 0 hoặc giá trị NaN
+merged_df = merged_df.copy()  # Optional: tránh sửa trực tiếp nếu cần giữ bản gốc
+merged_df = merged_df[merged_df['flight_hours'] > 0]  # Lọc tránh chia cho 0
 merged_df['fuel_per_hour'] = merged_df['actual_flight_fuel_kilograms'] / merged_df['flight_hours']
 
-sns.histplot(merged_df['fuel_per_hour'], kde=True, bins=30, color='teal')
+# ✅ Vẽ histogram với đường KDE
+plt.figure(figsize=(8, 6))
+sns.histplot(data=merged_df, x='fuel_per_hour', kde=True, bins=30, color='teal')
+
+# ✅ Bổ sung tiêu đề và nhãn
 plt.title('Fuel Consumption per Flight Hour')
 plt.xlabel('Fuel per Hour (kg/hour)')
+plt.ylabel('Frequency')
 plt.tight_layout()
 plt.show()
 ```
 ---
 
 #### 5. Fuel Consumption Over Time
-![image](https://github.com/user-attachments/assets/cba4bf82-9d9e-4459-a6e6-e2c0a539d061)
-
+![image](https://github.com/user-attachments/assets/3808e527-b09f-46fa-adf8-d3ad9d56bc97)
 
 - Daily fuel usage shows high fluctuation, indicating varying flight activity.
 - The 7-day rolling average highlights recurring weekly patterns.
@@ -101,27 +227,31 @@ plt.show()
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Load your actual_flights DataFrame
-# actual_df = pd.read_csv("actual_flights.csv")  # Uncomment if loading from file
-
-# Convert departure time to datetime
+# ✅ Chuyển cột thời gian cất cánh sang định dạng datetime
 actual_df['actual_time_departure'] = pd.to_datetime(actual_df['actual_time_departure'])
 
-# Extract date only (remove time)
+# ✅ Trích xuất phần ngày (loại bỏ giờ)
 actual_df['date'] = actual_df['actual_time_departure'].dt.date
 
-# Group by date to sum total fuel per day
-daily_fuel = actual_df.groupby('date')['actual_flight_fuel_kilograms'].sum()
+# ✅ Tính tổng nhiên liệu theo từng ngày
+daily_fuel = actual_df.groupby('date')['actual_flight_fuel_kilograms'].sum().reset_index()
 
-# Convert to DataFrame and calculate 7-day rolling average
-daily_fuel_df = daily_fuel.reset_index()
-daily_fuel_df['rolling_avg_7d'] = daily_fuel_df['actual_flight_fuel_kilograms'].rolling(window=7).mean()
+# ✅ Đổi tên cột cho rõ ràng (nếu cần)
+daily_fuel.columns = ['date', 'total_fuel_kg']
 
-# Plot
+# ✅ Tính trung bình trượt 7 ngày
+daily_fuel['rolling_avg_7d'] = daily_fuel['total_fuel_kg'].rolling(window=7).mean()
+
+# ✅ Vẽ biểu đồ
 plt.figure(figsize=(14, 7))
-plt.plot(daily_fuel_df['date'], daily_fuel_df['actual_flight_fuel_kilograms'], label='Daily Fuel Consumption', marker='o')
-plt.plot(daily_fuel_df['date'], daily_fuel_df['rolling_avg_7d'], label='7-Day Rolling Average', linewidth=3, color='orange')
 
+# Biểu đồ đường cho tổng nhiên liệu mỗi ngày
+plt.plot(daily_fuel['date'], daily_fuel['total_fuel_kg'], label='Daily Fuel Consumption', marker='o')
+
+# Biểu đồ đường cho trung bình trượt
+plt.plot(daily_fuel['date'], daily_fuel['rolling_avg_7d'], label='7-Day Rolling Average', linewidth=3, color='orange')
+
+# Thiết lập biểu đồ
 plt.title('Daily Total Fuel Consumption with 7-Day Rolling Average')
 plt.xlabel('Date')
 plt.ylabel('Total Fuel (kg)')
